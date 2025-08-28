@@ -4,12 +4,14 @@ from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 
+# Carrega variáveis de ambiente (Chave da API Groc)
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 class EmailRequest(BaseModel):
     email_text: str
 
+# Setup e rotas do servidor
 app = FastAPI()
 
 @app.get("/")

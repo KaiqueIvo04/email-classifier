@@ -3,6 +3,7 @@ import json
 import re
 from dataclasses import dataclass
 
+# Modelo de dados a ser retornado
 @dataclass
 class ClassificationResult:
     category: str
@@ -10,8 +11,8 @@ class ClassificationResult:
     justification: str
     suggested_response: str
 
+# Processa a resposta da API e transforma em json
 def parse_response(content: str):
-    """Processa a resposta da API e transforma em json"""
     # Remove formatação markdown se presente
     content = re.sub(r'```json\s*', '', content)
     content = re.sub(r'```\s*$', '', content)
@@ -27,6 +28,8 @@ def parse_response(content: str):
 
 def classify_email(text_request: str, api_key: str) -> ClassificationResult:
     client = Groq(api_key=api_key)
+
+    # Prompt para requisitar resposta da API Groc
     prompt = f"""
 Você é um assistente especializado em classificação de emails corporativos.
 
@@ -54,6 +57,7 @@ Responda APENAS no seguinte formato JSON:
     "resposta_sugerida": "resposta automática apropriada para o email"
 }}
 """
+    # Obter conteúdo da resposta
     response = client.chat.completions.create(
         model = "meta-llama/llama-4-scout-17b-16e-instruct",
         messages = [
