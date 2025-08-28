@@ -14,12 +14,13 @@ const API_URL = 'http://localhost:8000/process_email/';
 
 export const EmailForm: React.FC = () => {
     return (
-        <Container maxWidth="sm"
+        <Container maxWidth="sm" disableGutters
             sx={{
-                mt: 10
+                p: 0,
+                m: 0,
             }}
         >
-            <Paper elevation={4} sx={{ p: 4 }}>
+            <Paper elevation={4} sx={{ p: 4, minHeight: 500}}>
                 <Typography component="h1" variant="h4" gutterBottom align="center">
                     Classificador de Emails
                 </Typography>

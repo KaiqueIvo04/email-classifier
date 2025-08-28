@@ -9,7 +9,7 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#13db31ff',
+      main: '#097dc0ff',
     },
   },
 });
@@ -22,3 +22,4 @@ createRoot(document.getElementById('root')!).render(
     </ThemeProvider>
   </StrictMode>,
 )
+ 
