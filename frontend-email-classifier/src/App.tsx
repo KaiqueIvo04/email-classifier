@@ -17,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmitEmail = async (input: string) => {
+    setLoading(true)
     api
       .post("/process_email", { email_text: input })
       .then((response) => setApiResponse(response.data))
