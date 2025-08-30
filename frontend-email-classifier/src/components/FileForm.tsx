@@ -1,10 +1,11 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link } from "react-router-dom";
+import { FileDownloadDone } from "@mui/icons-material";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -58,10 +59,10 @@ export const FileForm: React.FC<FileDataProps> = ({ onSubmit, loading }) => {
                 variant="outlined"
                 fullWidth
                 tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
+                startIcon={file?.name === undefined ? <CloudUploadIcon /> : <FileDownloadDone/>}
                 sx={{ height: "65%" }}
             >
-                Selecionar arquivo
+                {file?.name === undefined ? "Selecionar arquivo" : "Arquivo carregado: " + file?.name}
                 <VisuallyHiddenInput
                     type="file"
                     accept=".pdf,.txt"
@@ -71,7 +72,7 @@ export const FileForm: React.FC<FileDataProps> = ({ onSubmit, loading }) => {
             <Button
                 type="submit"
                 variant="contained"
-                disabled={loading}
+                disabled={loading || file?.name === undefined}
                 fullWidth
                 startIcon={<ForwardToInboxIcon />}
             >

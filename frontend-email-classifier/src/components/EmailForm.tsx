@@ -41,7 +41,7 @@ export const EmailForm: React.FC<EmailDataProps> = ({ onSubmit, loading }) => {
             <Button
                 type="submit"
                 variant="contained"
-                disabled={loading}
+                disabled={loading || input === ""}
                 fullWidth
                 startIcon={<ForwardToInboxIcon />}
             >
