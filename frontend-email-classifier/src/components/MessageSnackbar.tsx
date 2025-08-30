@@ -28,7 +28,7 @@ export const MessageSnackbar: React.FC<MessageSnackbarProps> = ({
         onClose={onClose} 
         severity={severity} 
         variant="filled"
-        sx={{ width: "100%", fontSize: "1.3rem", fontWeight: "bold" }}
+        sx={{ width: "100%", fontSize: "1.1rem", fontWeight: "bold" }}
       >
         {message}
       </Alert>
