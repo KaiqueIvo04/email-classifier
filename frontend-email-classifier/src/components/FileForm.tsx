@@ -64,6 +64,7 @@ export const FileForm: React.FC<FileDataProps> = ({ onSubmit, loading }) => {
                 Selecionar arquivo
                 <VisuallyHiddenInput
                     type="file"
+                    accept=".pdf,.txt"
                     onChange={handleFileChange}
                 />
             </Button>
