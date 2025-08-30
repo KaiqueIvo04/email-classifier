@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import App from './App.tsx'
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -21,7 +22,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <App/>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,
 )

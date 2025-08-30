@@ -24,10 +24,11 @@ export const Result: React.FC<ClassificationDisplayProps> = ({ classificationRes
                 >
                     <Box>
                         <Typography
+                            gutterBottom
                             component="h1"
                             variant="h4"
-                            gutterBottom
                             align="center"
+                            sx={{ wordBreak: "break-word" }}
                         >
                             Resultado
                         </Typography>
