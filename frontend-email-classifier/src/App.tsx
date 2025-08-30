@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import { EmailForm } from "./components/EmailForm"
 import { Result } from "./components/Result"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import api from "./services/api";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { FileForm } from "./components/FileForm";
@@ -26,9 +26,15 @@ function App() {
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<"success" | "error">("success");
 
-  // se não estiver na rota início => esconder botões de escolha
+  // Se não estiver na rota início => esconder botões de escolha
   const location = useLocation();
   const hideButtons: boolean = location.pathname !== "/";
+
+  // Rolagem automática
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const scrollToSection = () => {
+    sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Handlers  
   const handleCloseSnackbar = () => setOpen(false);
@@ -42,6 +48,7 @@ function App() {
         setApiResponse(response.data)
         setMessage("Texto de e-mail enviado com sucesso!")
         setSeverity("success")
+        scrollToSection()
       })
       .catch((err) => {
         setMessage("Erro ao enviar requisição: " + err.message)
@@ -64,6 +71,7 @@ function App() {
         setApiResponse(response.data)
         setMessage(`Arquivo ${file.name} enviado com sucesso!`)
         setSeverity("success")
+        scrollToSection()
       })
       .catch((err) => {
         setMessage("Erro ao enviar requisição: " + err.message)
@@ -77,11 +85,11 @@ function App() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} rowSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Box
             sx={{
-              minHeight: "100vh",
+              minHeight: "100%",
               mt: 10,
               display: "flex",
               justifyContent: "center"
@@ -155,8 +163,9 @@ function App() {
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <Box
+            ref={sectionRef}
             sx={{
-              minHeight: "100vh",
+              minHeight: "100%",
               mt: 10,
               display: "flex",
               justifyContent: "center"
