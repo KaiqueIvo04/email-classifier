@@ -21,10 +21,10 @@ function App() {
 
   const location = useLocation();
 
-  const handleSubmitEmail = async (input: string) => {
+  const handleTextSubmit = async (input: string) => {
     setLoading(true)
     api
-      .post("/process_email", { email_text: input })
+      .post("/process_email_text", { email_text: input })
       .then((response) => setApiResponse(response.data))
       .catch((err) => {
         console.error("Erro ao enviar requisição: " + err)
@@ -34,13 +34,28 @@ function App() {
       })
   }
 
+  const handleFileSubmit = async (file: File) => {
+    setLoading(true)
+    const formData = new FormData();
+    formData.append("email_file", file);
+    api
+      .post("/process_email_file", formData, { headers: {"Content-Type": "multipart/form-data"} })
+      .then((response) => setApiResponse(response.data))
+      .catch((err) => {
+        console.error("Erro ao enviar requisição: " + err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  };
+
   // se a rota atual for /text_email ou /file_email => esconder botões
   const hideButtons: boolean = location.pathname === "/text_email"
     || location.pathname === "/file_email";
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={{xs: 1, sm: 2, md: 3}}>
+      <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Box
             sx={{
@@ -108,8 +123,8 @@ function App() {
                 )}
 
                 <Routes>
-                  <Route path="/text_email" element={<EmailForm onSubmit={handleSubmitEmail} loading={loading} />} />
-                  <Route path="/file_email" element={<FileForm onSubmit={handleSubmitEmail} loading={loading} />} />
+                  <Route path="/text_email" element={<EmailForm onSubmit={handleTextSubmit} loading={loading} />} />
+                  <Route path="/file_email" element={<FileForm onSubmit={handleFileSubmit} loading={loading} />} />
                 </Routes>
 
               </Paper>

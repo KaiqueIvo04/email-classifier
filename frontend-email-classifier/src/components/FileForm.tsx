@@ -19,17 +19,27 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 interface FileDataProps {
-    onSubmit: (email_text: string) => void;
+    onSubmit: (file: File) => void;
     loading: boolean;
 }
 
 export const FileForm: React.FC<FileDataProps> = ({ onSubmit, loading }) => {
-    const [input, setInput] = useState<string>("");
+    const [file, setFile] = useState<File | null>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setFile(event.target.files[0]); // salva o arquivo no estado
+        }
+    };
 
     const handleSubmitEmail = async (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(input)
-    }
+        if (file) {
+            onSubmit(file);
+        } else {
+            alert("Selecione um arquivo primeiro!");
+        }
+    };
 
     return (
         <Box
@@ -54,7 +64,7 @@ export const FileForm: React.FC<FileDataProps> = ({ onSubmit, loading }) => {
                 Selecionar arquivo
                 <VisuallyHiddenInput
                     type="file"
-                    onChange={(event) => console.log(event.target.files)}
+                    onChange={handleFileChange}
                 />
             </Button>
             <Button
