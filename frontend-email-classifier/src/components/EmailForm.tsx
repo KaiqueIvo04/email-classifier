@@ -11,7 +11,7 @@ interface EmailDataProps {
 }
 
 export const EmailForm: React.FC<EmailDataProps> = ({ onSubmit, loading }) => {
-    const [input, setInput] = useState<string>("");
+    const [input, setInput] = useState("");
 
     const handleSubmitEmail = async (e: React.FormEvent) => {
         e.preventDefault();

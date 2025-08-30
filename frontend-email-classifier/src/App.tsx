@@ -6,6 +6,7 @@ import api from "./services/api";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { FileForm } from "./components/FileForm";
 import { Link } from "react-router-dom";
+import { MessageSnackbar } from "./components/MessageSnackbar";
 
 // Interface para modelo de dados de resposta
 export interface ClassificationResult {
@@ -16,42 +17,63 @@ export interface ClassificationResult {
 }
 
 function App() {
+  // States
   const [apiResponse, setApiResponse] = useState<ClassificationResult | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
+  // States Snack Bar
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState<"success" | "error">("success");
+
+  // se não estiver na rota início => esconder botões de escolha
   const location = useLocation();
+  const hideButtons: boolean = location.pathname !== "/";
 
+  // Handlers  
+  const handleCloseSnackbar = () => setOpen(false);
+
+  // Para enviar text do input
   const handleTextSubmit = async (input: string) => {
     setLoading(true)
     api
       .post("/process_email_text", { email_text: input })
-      .then((response) => setApiResponse(response.data))
+      .then((response) => {
+        setApiResponse(response.data)
+        setMessage("Texto de e-mail enviado com sucesso!")
+        setSeverity("success")
+      })
       .catch((err) => {
-        console.error("Erro ao enviar requisição: " + err)
+        setMessage("Erro ao enviar requisição: " + err.message)
+        setSeverity("error")
       })
       .finally(() => {
         setLoading(false)
+        setOpen(true);
       })
   }
 
+  // Para enviar arquivo do input
   const handleFileSubmit = async (file: File) => {
     setLoading(true)
     const formData = new FormData();
     formData.append("email_file", file);
     api
-      .post("/process_email_file", formData, { headers: {"Content-Type": "multipart/form-data"} })
-      .then((response) => setApiResponse(response.data))
+      .post("/process_email_file", formData, { headers: { "Content-Type": "multipart/form-data" } })
+      .then((response) => {
+        setApiResponse(response.data)
+        setMessage(`Arquivo ${file.name} enviado com sucesso!`)
+        setSeverity("success")
+      })
       .catch((err) => {
-        console.error("Erro ao enviar requisição: " + err)
+        setMessage("Erro ao enviar requisição: " + err.message)
+        setSeverity("error")
       })
       .finally(() => {
         setLoading(false)
+        setOpen(true)
       })
   };
-
-  // se a rota atual for /text_email ou /file_email => esconder botões
-  const hideButtons: boolean = location.pathname === "/text_email"
-    || location.pathname === "/file_email";
 
   return (
     <Container maxWidth="lg">
@@ -82,7 +104,7 @@ function App() {
                   flexDirection: "column",
                 }}
               >
-                <Typography gutterBottom component="h1" variant="h4" align="center" sx={{ wordBreak: "break-word" }}>
+                <Typography gutterBottom fontWeight="bold" variant="h4" align="center" sx={{ wordBreak: "break-word" }}>
                   Classificador de E-mails
                 </Typography>
 
@@ -144,6 +166,12 @@ function App() {
           </Box>
         </Grid>
       </Grid>
+      <MessageSnackbar
+        open={open}
+        message={message}
+        severity={severity}
+        onClose={handleCloseSnackbar}
+      />
     </Container>
   )
 }
