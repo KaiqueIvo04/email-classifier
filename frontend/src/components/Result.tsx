@@ -28,6 +28,7 @@ export const Result: React.FC<ClassificationDisplayProps> = ({ classificationRes
                             fontWeight="bold"
                             variant="h4"
                             align="center"
+                            color="primary.main"
                             sx={{ wordBreak: "break-word" }}
                         >
                             Resultado
@@ -42,19 +43,19 @@ export const Result: React.FC<ClassificationDisplayProps> = ({ classificationRes
                         }}
                     >
                         <Box>
-                            <Typography variant="h6">Categoria: </Typography>
+                            <Typography variant="h6" color="primary.main">Categoria: </Typography>
                             {classificationResult?.categoria}
                         </Box>
                         <Box>
-                            <Typography variant="h6">Confiança de classificação: </Typography>
+                            <Typography variant="h6" color="primary.main">Confiança de classificação: </Typography>
                             {classificationResult?.confianca}
                         </Box>
                         <Box>
-                            <Typography variant="h6">Justificativa: </Typography>
+                            <Typography variant="h6" color="primary.main">Justificativa: </Typography>
                             {classificationResult?.justificativa}
                         </Box>
                         <Box>
-                            <Typography variant="h6">Resposta sugerida: </Typography>
+                            <Typography variant="h6" color="primary.main">Resposta sugerida: </Typography>
                             {classificationResult?.resposta_sugerida}
                         </Box>
                     </Box>

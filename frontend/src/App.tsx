@@ -112,7 +112,13 @@ function App() {
                   flexDirection: "column",
                 }}
               >
-                <Typography gutterBottom fontWeight="bold" variant="h4" align="center" sx={{ wordBreak: "break-word" }}>
+                <Typography 
+                  gutterBottom 
+                  fontWeight="bold" 
+                  variant="h4" 
+                  color="primary.main"
+                  align="center" 
+                  sx={{ wordBreak: "break-word" }}>
                   Classificador de E-mails
                 </Typography>
 
